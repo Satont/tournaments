@@ -28,8 +28,18 @@ export default new Router({
       component: () => import('../pages/Teams/edit.vue'),
     },
     {
+      path: '/tournaments',
+      name: 'Tournaments',
+      component: () => import('../pages/Tournaments/list.vue'),
+    },
+    {
+      path: '/tournaments/:id',
+      name: 'TournamentsEdit',
+      component: () => import('../pages/Tournaments/edit.vue'),
+    },
+    {
       path: '*',
-      component: { render: (h) => h('div', ['404! Page Not Found!']) },
+      component: { render: (h) => h('div', ['Страница не найдена']) },
     },
   ],
   linkActiveClass,

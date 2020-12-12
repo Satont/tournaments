@@ -49,9 +49,7 @@
         class="mr-2"
         @click="$router.push({
           name: 'PlayersEdit',
-          params: {
-            id: item.id,
-          }
+          params: { id: item.id }
         })"
       >
         {{ mdiPencil }}

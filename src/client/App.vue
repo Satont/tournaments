@@ -4,6 +4,7 @@
     <v-tabs>
       <v-tab :to="{ name: 'Players' }">Игроки</v-tab>
       <v-tab :to="{ name: 'Teams' }">Команды</v-tab>
+      <v-tab :to="{ name: 'Tournaments' }">Турниры</v-tab>
     </v-tabs>
   </v-app-bar>
 
