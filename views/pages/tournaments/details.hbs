@@ -1,0 +1,12 @@
+<section class="about">
+  <div class="container d-flex h-100 align-items-center">
+    {{ id }} {{ name }}
+    {{#each teams}}
+      {{ name }}
+
+      {{#each players}}
+        {{ userId }} {{ activision }}
+      {{/each}}
+    {{/each}}
+  </div>
+</section>
