@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-app-bar app dense dark>
-    <v-tabs>
+    <v-tabs color="#fff" active-class="active-tab">
       <v-tab :to="{ name: 'Players' }">Игроки</v-tab>
       <v-tab :to="{ name: 'Teams' }">Команды</v-tab>
       <v-tab :to="{ name: 'Tournaments' }">Турниры</v-tab>
@@ -17,14 +17,7 @@
 </template>
 
 <style scoped>
-  .md-app {
-    border: 1px solid rgba(#000, .12);
-  }
 
-  .md-drawer {
-    width: 230px;
-    max-width: calc(100vw - 125px);
-  }
 </style>
 
 <script>
