@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-app-bar app dense dark>
-    <v-tabs color="#fff" active-class="active-tab">
+    <v-tabs color="#fff" class="my-navbar" active-class="active-tab">
       <v-tab :to="{ name: 'Players' }">Игроки</v-tab>
       <v-tab :to="{ name: 'Teams' }">Команды</v-tab>
       <v-tab :to="{ name: 'Tournaments' }">Турниры</v-tab>
@@ -16,8 +16,13 @@
 </v-app>
 </template>
 
-<style scoped>
-
+<style>
+  /* .active-tab:before {
+    background-color: #000;
+  } */
+  .my-navbar .v-tabs-slider {
+    background-color: #FF0000;
+  }
 </style>
 
 <script>
