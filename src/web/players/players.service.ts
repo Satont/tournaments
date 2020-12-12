@@ -13,7 +13,7 @@ export class PlayersService {
 
   async getList() {
     const list = await this.repository.find({
-      relations: ['teams'],
+      relations: ['teams', 'teams.tournaments'],
     })
 
     return await Promise.all(list.map(async (player) => ({
