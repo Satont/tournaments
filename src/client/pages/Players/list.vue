@@ -75,7 +75,7 @@ export default Vue.extend({
       { text: 'Activision ID', value: 'activision', sortable: false },
       { text: 'Состоит в команде', value: 'teams', sortable: false },
       { text: 'Участник турнира', value: 'teams.tournaments', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Действия', value: 'actions', sortable: false },
     ],
     players: [],
     mdiPencil,
