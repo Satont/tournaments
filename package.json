@@ -50,6 +50,7 @@
     "vuex": "^3.6.0"
   },
   "devDependencies": {
+    "@mdi/js": "^5.8.55",
     "@nestjs/cli": "^7.5.4",
     "@nestjs/schematics": "^7.2.5",
     "@types/css-minimizer-webpack-plugin": "^1.1.1",

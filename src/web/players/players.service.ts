@@ -21,4 +21,12 @@ export class PlayersService {
       discord: await this.authService.findUserFromDiscordId(player.userId),
     })))
   }
+
+  async getOne(id: string) {
+    const player = await this.repository.findOne(id)
+    return {
+      ...player,
+      discord: await this.authService.findUserFromDiscordId(player.userId),
+    }
+  }
 }

@@ -2,7 +2,8 @@
 <v-app>
   <v-app-bar app dense dark>
     <v-tabs>
-      <v-tab to="Players">Игроки</v-tab>
+      <v-tab :to="{ name: 'Players' }">Игроки</v-tab>
+      <v-tab :to="{ name: 'Teams' }">Команды</v-tab>
     </v-tabs>
   </v-app-bar>
 

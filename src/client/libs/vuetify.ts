@@ -6,6 +6,9 @@ Vue.use(Vuetify)
 
 const opts: UserVuetifyPreset = {
   theme: { dark: true },
+  icons: {
+    iconfont: 'mdiSvg',
+  },
 }
 
 export default new Vuetify(opts)
