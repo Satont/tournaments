@@ -9,7 +9,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn color="success">
-        Reserve
+        Добавить
       </v-btn>
     </v-card-actions>
     {{ form.roles }}
