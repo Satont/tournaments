@@ -2,6 +2,9 @@
   <v-card max-width="500">
     <v-subheader>Tiers</v-subheader>
     <v-card-text>
+      <div v-for="(item, index) in form.roles" v-bind:key="item.id">
+        {{ index }}
+      </div>
       <v-text-field placeholder="qweqw"></v-text-field>
       <v-select :items="roles.filter(r => r.name !== '@everyone').map(r => r.name)" label="Роль"></v-select>
       <v-divider></v-divider>
