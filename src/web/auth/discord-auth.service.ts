@@ -13,6 +13,7 @@ export class AuthService {
       isOwner: guild.ownerID === member.id,
       isAdmin: member.hasPermission('ADMINISTRATOR'),
       ...member.user.toJSON(),
+      roles: member.roles.cache,
     }
 
     if (!user) {
