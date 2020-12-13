@@ -5,10 +5,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: undefined,
+    roles: [],
   },
   mutations: {
     setUser(state, payLoad) {
       state.user = payLoad
+    },
+    setRoles(state, payLoad) {
+      state.roles = payLoad
     },
   },
 })

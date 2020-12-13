@@ -6,7 +6,7 @@
         {{ index }}
       </div>
       <v-text-field placeholder="qweqw"></v-text-field>
-      <v-select :items="roles.filter(r => r.name !== '@everyone').map(r => r.name)" label="Роль"></v-select>
+      <v-select :items="$store.roles.filter(r => r.name !== '@everyone').map(r => r.name)" label="Роль"></v-select>
       <v-divider></v-divider>
       <v-text-field placeholder="qweqw"></v-text-field>
     </v-card-text>
@@ -25,17 +25,9 @@ import axios from 'axios'
 
 export default Vue.extend({
   data: () => ({
-    roles: [],
     form: {
       roles: [],
     }
   }),
-  async created() {
-    const [roles] = await Promise.all([
-      axios.get('/api/roles')
-    ])
-
-    this.roles = roles.data
-  },
 })
 </script>
