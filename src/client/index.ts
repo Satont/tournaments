@@ -14,6 +14,7 @@ new Vue({
   store,
   async created() {
     await this.checkAuthorization()
+    await this.loadData()
   },
   methods: {
     async checkAuthorization() {
