@@ -38,6 +38,11 @@ export default new Router({
       component: () => import('../pages/Tournaments/edit.vue'),
     },
     {
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('../pages/Settings/edit.vue'),
+    },
+    {
       path: '*',
       component: { render: (h) => h('div', ['Страница не найдена']) },
     },
