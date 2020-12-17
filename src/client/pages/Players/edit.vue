@@ -62,7 +62,7 @@ export default class extends Vue {
 
     this.form.activision = data.activision
     this.form.tag = data.discord.tag
-    this.form.roles = data.discord.roles.map(role => role.id)
+    this.form.roles = data.discord.roles.map(t => ({ text: t.name, value: t.id }))
     this.form.teams = data.teams.map(t => t.id)
     this.originalTeams = data.teams.map(t => ({ text: t.name, value: t.id }))
     this.teams = this.originalTeams
