@@ -1,19 +1,27 @@
 <template>
-  <v-card max-width="500" class="pb-6">
+  <v-card max-width="500">
     <v-subheader>Tiers</v-subheader>
     <v-card-text>
       <v-card elevation="30" outlined class="mx-auto pa-6" v-if="!form.roles.length">
         Пусто
       </v-card>
-      <div v-for="(item, index) in form.roles" v-bind:key="item.id">
-        <v-select :items="rolesForSelection" v-model.trim="form.roles[index].id" label="Роль"></v-select>
-        <v-text-field v-model.number="form.roles[index].kda" label="KDA" type="number"></v-text-field>
-        <v-btn color="red lighten-1" elevation="3" dark absolute right fab x-small @click="deleteRole(item)"><v-icon>{{ mdiTrashCan }}</v-icon></v-btn>
-        <v-divider></v-divider>
-      </div>
+      <v-list>
+        <v-list-item v-for="(item, index) in form.roles" v-bind:key="item.id">
+          <v-list-item-content>
+            <v-select :items="rolesForSelection" v-model.trim="form.roles[index].id" label="Роль"></v-select>
+            <v-text-field v-model.number="form.roles[index].kda" label="KDA" type="number"></v-text-field>
+          </v-list-item-content>
+          <v-btn color="red lighten-1" elevation="3" dark absolute bottom right fab x-small @click="deleteRole(item)"><v-icon>{{ mdiTrashCan }}</v-icon></v-btn>
+        </v-list-item>
+      </v-list>
     </v-card-text>
-    <v-btn color="cyan" elevation="3" dark absolute bottom left fab small @click="addNewRole()"><v-icon>{{ mdiPlus }}</v-icon></v-btn>
-    <v-btn color="success" elevation="3" dark absolute bottom right fab small @click="save()"><v-icon>{{ mdiContentSave }}</v-icon></v-btn>
+    <!-- <v-btn color="cyan" elevation="3" dark absolute bottom left fab small @click="addNewRole()"><v-icon>{{ mdiPlus }}</v-icon></v-btn>
+    <v-btn color="success" elevation="3" dark absolute bottom right fab small @click="save()"><v-icon>{{ mdiContentSave }}</v-icon></v-btn> -->
+    <v-card-actions>
+      <v-btn color="cyan" fab elevation="3" small @click="addNewRole()"><v-icon>{{ mdiPlus }}</v-icon></v-btn>
+      <v-spacer></v-spacer>
+      <v-btn color="success" fab elevation="3" small @click="save()"><v-icon>{{ mdiContentSave }}</v-icon></v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
