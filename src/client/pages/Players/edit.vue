@@ -52,9 +52,6 @@ export default Vue.extend({
     this.userTeams = data.teams.map(t => ({ text: t.name, value: t.id }))
   },
   methods: {
-    remove (item) {
-      this.chips = this.chips.filter(c => c !== item)
-    },
     async save() {
       console.log('qwe')
     },
