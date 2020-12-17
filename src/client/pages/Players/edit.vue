@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h2>Игрок {{ form.tag }}</h2>
+  <h2>Игрок {{ form.tag }}</h2> <v-btn @click="save">Save</v-btn>
   <v-form>
     <v-container>
       <v-row>
@@ -51,8 +51,10 @@ export default class extends Vue {
     teams: [],
   }
   userTeams = []
-  mdiContentSave
   teamsLoading = false
+  icons = {
+    save: mdiContentSave,
+  }
 
   async mounted() {
     const { data } = await axios.get(`/api/players/${this.$route.params.id}`)
@@ -65,7 +67,7 @@ export default class extends Vue {
   }
 
   async save() {
-    console.log('qwe')
+    await axios.post(`/api/players/${this.$route.params.id}`, this.form)
   }
 
   async loadTeams() {
