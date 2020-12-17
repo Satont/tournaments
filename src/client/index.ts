@@ -22,6 +22,8 @@ const bootstrap = async () => {
   store.commit('set.roles', roles.data)
   store.commit('set.settings', settings.data)
 
+  store.dispatch('loadTeams')
+
   new Vue({
     vuetify,
     render: (h) => h(App),

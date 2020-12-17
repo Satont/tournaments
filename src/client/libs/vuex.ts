@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -7,7 +8,10 @@ export default new Vuex.Store({
     user: undefined,
     roles: [],
     settings: {},
-    teams: [],
+    teams: {
+      list: [],
+      loaded: false,
+    },
   },
   mutations: {
     'set.user'(state, payLoad) {
@@ -20,7 +24,15 @@ export default new Vuex.Store({
       state.settings = payLoad
     },
     'set.teams'(state, payLoad) {
-      state.teams = payLoad
+      state.teams.loaded = true
+      state.teams.list = payLoad
+      console.log(state)
+    },
+  },
+  actions: {
+    async loadTeams({ commit }) {
+      const { data: { teams } } = await axios.get('/api/teams')
+      commit('set.teams', teams)
     },
   },
 })

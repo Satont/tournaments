@@ -1,10 +1,8 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="teams"
-    :options.sync="options"
-    :server-items-length="total"
-    :loading="loading"
+    :items="$store.state.teams.list"
+    :loading="!$store.state.teams.loaded"
     loading-text="Загрузка..."
     class="elevation-1"
     :footer-props="{
@@ -92,7 +90,6 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 @Component
 export default class extends Vue {
   options: any = {}
-  loading = true
   total = 0
 
   headers = [
@@ -105,26 +102,6 @@ export default class extends Vue {
   teams = []
   icons = {
     pencil: mdiPencil,
-  }
-
-  @Watch('options')
-  onOptionsChange() {
-    this.getList()
-  }
-
-  async mounted() {
-    this.getList()
-  }
-
-  async getList() {
-    const { data: { teams, total } } = await axios.get('/api/teams', {
-      params: this.options,
-    })
-
-    this.teams = teams
-    this.total = total
-
-    this.loading = false
   }
 }
 </script>

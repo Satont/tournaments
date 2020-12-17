@@ -21,7 +21,7 @@
             ref="teamsSelector"
             v-model="form.teams"
             :items="teams"
-            :loading="teamsLoading"
+            :loading="!$store.state.teams.loaded"
             chips
             small-chips
             label="СОСТОИТ В КОМАНДЕ"
@@ -41,6 +41,7 @@ import { Role } from 'discord.js'
 import { mdiContentSave } from '@mdi/js'
 
 import { Vue, Component } from 'vue-property-decorator'
+import { settings } from 'cluster'
 
 @Component
 export default class extends Vue {
@@ -73,19 +74,10 @@ export default class extends Vue {
   }
 
   async loadTeams() {
-    this.teamsLoading = true
-
-    if (!this.$store.state.teams.length) {
-      const { data: { teams } } = await axios.get('/api/teams')
-      this.$store.commit('set.teams', teams)
-    }
-
     this.teams = [
       ...this.originalTeams,
-      ...this.$store.state.teams.map(t => ({ text: t.name, value: t.id }))
+      ...this.$store.state.teams.list.map(t => ({ text: t.name, value: t.id }))
     ]
-
-    this.teamsLoading = false
   }
 
   get rolesForSelection() {
