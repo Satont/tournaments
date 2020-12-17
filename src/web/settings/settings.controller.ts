@@ -11,13 +11,13 @@ export class SettingsController {
 
   @Get('api/settings')
   @UseGuards(AuthenticatedGuard)
-  settingsList() {
-    return this.service.getSettingsList()
+  list() {
+    return this.service.list()
   }
 
   @Post('api/settings')
   @UseGuards(AuthenticatedGuard)
-  postSettings(@Body() body: SettingsDto) {
-    return body
+  edit(@Body() body: SettingsDto) {
+    return this.service.edit(body)
   }
 }
