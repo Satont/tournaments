@@ -26,7 +26,6 @@ export default new Vuex.Store({
     'set.teams'(state, payLoad) {
       state.teams.loaded = true
       state.teams.list = payLoad
-      console.log(state)
     },
   },
   actions: {

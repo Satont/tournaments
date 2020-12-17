@@ -1,72 +1,79 @@
 <template>
-  <v-card max-width="500">
-    <v-subheader>Tiers</v-subheader>
-    <v-card-text>
-      <v-card elevation="30" outlined class="mx-auto pa-6" v-if="!form.roles.length">
-        Пусто
-      </v-card>
-      <v-list>
-        <v-list-item v-for="(item, index) in form.roles" v-bind:key="item.id">
-          <v-list-item-content>
-            <v-select :items="rolesForSelection" v-model.trim="form.roles[index].id" label="Роль"></v-select>
-            <v-text-field v-model.number="form.roles[index].kda" label="KDA" type="number"></v-text-field>
-          </v-list-item-content>
-          <v-btn color="red lighten-1" elevation="3" dark absolute bottom right fab x-small @click="deleteRole(item)"><v-icon>{{ mdiTrashCan }}</v-icon></v-btn>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-    <!-- <v-btn color="cyan" elevation="3" dark absolute bottom left fab small @click="addNewRole()"><v-icon>{{ mdiPlus }}</v-icon></v-btn>
-    <v-btn color="success" elevation="3" dark absolute bottom right fab small @click="save()"><v-icon>{{ mdiContentSave }}</v-icon></v-btn> -->
-    <v-card-actions>
-      <v-btn color="cyan" fab elevation="3" small @click="addNewRole()"><v-icon>{{ mdiPlus }}</v-icon></v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="success" fab elevation="3" small @click="save()"><v-icon>{{ mdiContentSave }}</v-icon></v-btn>
-    </v-card-actions>
-  </v-card>
+<v-row>
+  <v-col md="2">
+    <v-card
+      elevation="12"
+      width="256"
+    >
+      <v-navigation-drawer permanent floating left>
+        <v-list dense rounded>
+          <v-list-item link>
+            <v-list-item-content>
+              Tiers
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </v-card>
+      <v-btn color="cyan" fab elevation="3" small @click="addNewRole()"><v-icon>{{ icons.mdiPlus }}</v-icon></v-btn>
+      <v-btn color="success" fab elevation="3" small @click="save()"><v-icon>{{ icons.mdiContentSave }}</v-icon></v-btn>
+  </v-col>
+  <v-col md="2" v-for="(item, index) in form.roles" v-bind:key="item.id">
+    <v-card max-width="300">
+      <v-subheader>{{ getRolesCardName(item.id) }}</v-subheader>
+      <v-card-text>
+        <v-select :items="rolesForSelection" v-model.trim="form.roles[index].id" label="Роль"></v-select>
+        <v-text-field v-model.number="form.roles[index].kda" label="KDA" type="number"></v-text-field>
+      </v-card-text>
+    </v-card>
+  </v-col>
+</v-row>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import axios from 'axios'
 import { mdiPlus, mdiContentSave, mdiTrashCan } from '@mdi/js'
 import { Role } from 'discord.js'
 
-export default Vue.extend({
-  data: () => ({
-    form: {
-      roles: [] as Role[],
-    },
+@Component
+export default class extends Vue {
+  form = {
+    roles: this.$store.state.settings.roles,
+  }
+  icons = {
     mdiPlus,
     mdiContentSave,
-    mdiTrashCan,
-  }),
-  methods: {
-    addNewRole() {
-      this.form.roles.push({
-        id: '0',
-        kda: 0,
-      })
-    },
-    deleteRole(role) {
-      this.form.roles = this.form.roles.filter(r => r !== role)
-    },
-    async save() {
-      await axios.post('/api/settings', this.form)
-    }
-  },
-  async mounted() {
-    this.form.roles = this.$store.state.settings.roles
-  },
-  computed: {
-    rolesForSelection() {
-      const list = this.$store.state.roles.filter(r => r.name !== '@everyone').map((role: Role) => ({
-        text: role.name,
-        value: role.id,
-        disabled: this.form.roles.some(r => r.id === role.id)
-      }))
-
-      return list
-    },
+    mdiTrashCan
   }
-})
+
+  addNewRole() {
+    this.form.roles.push({
+      id: '0',
+      kda: 0,
+    })
+  }
+
+  deleteRole(role) {
+    this.form.roles = this.form.roles.filter(r => r !== role)
+  }
+
+  async save() {
+    await axios.post('/api/settings', this.form)
+  }
+
+  get rolesForSelection() {
+    const list = this.$store.state.roles.filter(r => r.name !== '@everyone').map((role: Role) => ({
+      text: role.name,
+      value: role.id,
+      disabled: this.form.roles.some(r => r.id === role.id)
+    }))
+
+    return list
+  }
+
+  getRolesCardName(id) {
+    return this.rolesForSelection.find(r => r.value === id)?.text ?? 'Не выбрано'
+  }
+}
 </script>
