@@ -8,10 +8,10 @@ export default new Vuex.Store({
     roles: [],
   },
   mutations: {
-    setUser(state, payLoad) {
+    'set.user'(state, payLoad) {
       state.user = payLoad
     },
-    setRoles(state, payLoad) {
+    'set.roles'(state, payLoad) {
       state.roles = payLoad
     },
   },

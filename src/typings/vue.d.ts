@@ -1,8 +1,10 @@
+import Vuex from 'vuex'
+
 declare module 'vue/types/vue' {
   interface Vue {
-    material: any
+    $store: Vuex
   }
   interface VueConstructor {
-    material: any
+    $store: Vuex
   }
 }
