@@ -7,6 +7,7 @@ export default new Vuex.Store({
     user: undefined,
     roles: [],
     settings: {},
+    teams: [],
   },
   mutations: {
     'set.user'(state, payLoad) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     'set.settings'(state, payLoad) {
       state.settings = payLoad
+    },
+    'set.teams'(state, payLoad) {
+      state.teams = payLoad
     },
   },
 })
