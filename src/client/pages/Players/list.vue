@@ -3,11 +3,29 @@
     :headers="headers"
     :items="players"
     :items-per-page="20"
-    :page.sync="page"
     class="elevation-1"
   >
+
+    <template v-slot:[`item.roles`]="{ item }">
+      <v-sheet max-width="200">
+        <v-slide-group multiple show-arrows>
+          <v-slide-item v-for="role in getUserDiscordRoles(item)" :key="role.id">
+            <v-btn
+              class="mx-2"
+              small
+              depressed
+              rounded
+            >
+              {{ role.name }}
+            </v-btn>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
+    </template>
+
+
     <template v-slot:[`item.teams`]="{ item }">
-      <v-sheet max-width="300">
+      <v-sheet max-width="200">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="team in item.teams" :key="team.id">
             <v-btn
@@ -27,8 +45,8 @@
       </v-sheet>
     </template>
 
-     <template v-slot:[`item.teams.tournaments`]="{ item }">
-      <v-sheet max-width="300">
+    <template v-slot:[`item.teams.tournaments`]="{ item }">
+      <v-sheet max-width="200">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="tournament in getTournamentsFromItem(item)" :key="tournament.id">
             <v-btn
@@ -48,7 +66,7 @@
       </v-sheet>
     </template>
 
-     <template v-slot:[`item.actions`]="{ item }">
+    <template v-slot:[`item.actions`]="{ item }">
       <v-icon
         small
         class="mr-2"
@@ -74,6 +92,7 @@ export default Vue.extend({
       { text: 'Discord', value: 'discord.tag', sortable: false },
       { text: 'Activision ID', value: 'activision', sortable: false },
       { text: 'Состоит в команде', value: 'teams', sortable: false },
+      { text: 'Роль в Discord', value: 'roles', sortable: false },
       { text: 'Участник турнира', value: 'teams.tournaments', sortable: false },
       { text: 'Действия', value: 'actions', sortable: false },
     ],
@@ -91,6 +110,9 @@ export default Vue.extend({
         .filter(t => t.isRunned)
 
       return result
+    },
+    getUserDiscordRoles(user) {
+      return user.discord.roles.filter(discordRole => this.$store.state.settings.roles.some(role => role.id === discordRole.id))
     }
   }
 })

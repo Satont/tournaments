@@ -55,8 +55,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    const { data } = await axios.get('/api/settings')
-    this.form.roles = data.roles
+    this.form.roles = this.$store.state.settings.roles
   },
   computed: {
     rolesForSelection() {
