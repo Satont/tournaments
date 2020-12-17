@@ -76,8 +76,8 @@ export default class extends Vue {
     this.teamsLoading = true
 
     if (!this.$store.state.teams.length) {
-      const { data } = await axios.get('/api/teams')
-      this.$store.commit('set.teams', data)
+      const { data: { teams } } = await axios.get('/api/teams')
+      this.$store.commit('set.teams', teams)
     }
 
     this.teams = [

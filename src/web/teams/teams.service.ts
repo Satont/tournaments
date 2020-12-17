@@ -14,8 +14,8 @@ export class TeamsService {
   async list(query: Record<string, string>) {
     const [list, total] = await this.repository.findAndCount({
       relations: ['players', 'captain', 'tournaments'],
-      take: Number(query.itemsPerPage),
-      skip: (Number(query.page) - 1) * Number(query.itemsPerPage),
+      take: Number(query.itemsPerPage) || undefined,
+      skip: (Number(query.page) - 1) * Number(query.itemsPerPage) || undefined,
     })
 
     const teams = await Promise.all(list.map(async (team) => ({
