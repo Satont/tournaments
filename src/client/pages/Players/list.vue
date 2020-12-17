@@ -2,8 +2,14 @@
   <v-data-table
     :headers="headers"
     :items="players"
-    :items-per-page="20"
+    :options.sync="options"
+    :server-items-length="total"
+    :loading="loading"
+    loading-text="Загрузка..."
     class="elevation-1"
+    :footer-props="{
+      'items-per-page-options': [ 5, 10, 15, 25, 40, 50, 100, 200, 250, 300, 400, 500 ],
+    }"
   >
 
     <template v-slot:[`item.roles`]="{ item }">
@@ -75,45 +81,66 @@
           params: { id: item.id }
         })"
       >
-        {{ mdiPencil }}
+        {{ icons.pencil }}
       </v-icon>
     </template>
   </v-data-table>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import axios from 'axios'
 import { mdiPencil } from '@mdi/js'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 
-export default Vue.extend({
-  data: () => ({
-    headers: [
-      { text: 'Discord', value: 'discord.tag', sortable: false },
-      { text: 'Activision ID', value: 'activision', sortable: false },
-      { text: 'Состоит в команде', value: 'teams', sortable: false },
-      { text: 'Роль в Discord', value: 'roles', sortable: false },
-      { text: 'Участник турнира', value: 'teams.tournaments', sortable: false },
-      { text: 'Действия', value: 'actions', sortable: false },
-    ],
-    players: [],
-    mdiPencil,
-  }),
-  async mounted() {
-    const { data: players } = await axios.get('/api/players')
-    this.players = players
-  },
-  methods: {
-    getTournamentsFromItem(item) {
-      const result = item.teams
-        .flatMap(i => i.tournaments)
-        .filter(t => t.isRunned)
+@Component
+export default class extends Vue {
+  options: any = {}
+  loading = true
+  total = 0
 
-      return result
-    },
-    getUserDiscordRoles(user) {
-      return user.discord.roles.filter(discordRole => this.$store.state.settings.roles.some(role => role.id === discordRole.id))
-    }
+  headers = [
+    { text: 'Discord', value: 'discord.tag', sortable: false },
+    { text: 'Activision ID', value: 'activision', sortable: false },
+    { text: 'Состоит в команде', value: 'teams', sortable: false },
+    { text: 'Роль в Discord', value: 'roles', sortable: false },
+    { text: 'Участник турнира', value: 'teams.tournaments', sortable: false },
+    { text: 'Действия', value: 'actions', sortable: false },
+  ]
+  players = []
+  icons = {
+    pencil: mdiPencil,
   }
-})
+
+  @Watch('options')
+  onOptionsChange() {
+    this.getList()
+  }
+
+  async mounted() {
+    this.getList()
+  }
+
+  async getList() {
+    const { data: { players, total } } = await axios.get('/api/players', {
+      params: this.options,
+    })
+
+    this.players = players
+    this.total = total
+
+    this.loading = false
+  }
+
+  getTournamentsFromItem(item) {
+    const result = item.teams
+      .flatMap(i => i.tournaments)
+      .filter(t => t.isRunned)
+
+    return result
+  }
+
+  getUserDiscordRoles(user) {
+    return user.discord.roles.filter(discordRole => this.$store.state.settings.roles.some(role => role.id === discordRole.id))
+  }
+}
 </script>

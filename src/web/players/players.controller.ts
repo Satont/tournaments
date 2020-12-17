@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { AuthenticatedGuard } from '../auth/guards/authenticated.guard'
 import { PlayerDto } from './player.dto'
 import { PlayersService } from './players.service'
@@ -11,8 +11,8 @@ export class PlayersController {
 
   @Get()
   @UseGuards(AuthenticatedGuard)
-  players() {
-    return this.service.getList()
+  players(@Query() query: Record<string, string>) {
+    return this.service.getList(query)
   }
 
   @Get('/:id')

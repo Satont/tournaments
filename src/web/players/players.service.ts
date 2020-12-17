@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { getConnection, getRepository } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { DiscordClient } from '../../bot'
 import { Player } from '../../entities/Player'
 import { Settings } from '../../entities/Settings'
@@ -17,15 +17,23 @@ export class PlayersService {
     private readonly authService: AuthService
   ) {}
 
-  async getList() {
-    const list = await this.repository.find({
+  async getList(query: Record<string, string>) {
+    console.log(query)
+    const [list, total] = await this.repository.findAndCount({
       relations: ['teams', 'teams.tournaments'],
+      take: Number(query.itemsPerPage),
+      skip: (Number(query.page) - 1) * Number(query.itemsPerPage),
     })
 
-    return await Promise.all(list.map(async (player) => ({
+    const players = await Promise.all(list.map(async (player) => ({
       ...player,
       discord: await this.authService.findUserFromDiscordId(player.userId),
     })))
+
+    return {
+      players,
+      total,
+    }
   }
 
   async getOne(id: string) {
