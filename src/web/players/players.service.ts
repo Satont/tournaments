@@ -23,7 +23,7 @@ export class PlayersService {
   }
 
   async getOne(id: string) {
-    const player = await this.repository.findOne(id)
+    const player = await this.repository.findOne(id, { relations: ['teams', 'teams.players'] })
     return {
       ...player,
       discord: await this.authService.findUserFromDiscordId(player.userId),
