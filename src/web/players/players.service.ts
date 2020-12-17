@@ -18,7 +18,6 @@ export class PlayersService {
   ) {}
 
   async getList(query: Record<string, string>) {
-    console.log(query)
     const [list, total] = await this.repository.findAndCount({
       relations: ['teams', 'teams.tournaments'],
       take: Number(query.itemsPerPage),
