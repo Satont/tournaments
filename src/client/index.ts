@@ -15,14 +15,9 @@ const bootstrap = async () => {
     window.location.replace(`/auth/discord`)
   }
 
-  const [roles, settings] = await Promise.all([
-    axios.get('/api/roles'),
-    axios.get('/api/settings'),
-  ])
-  store.commit('set.roles', roles.data)
-  store.commit('set.settings', settings.data)
-
   store.dispatch('loadTeams')
+  store.dispatch('loadRoles')
+  store.dispatch('loadSettings')
 
   new Vue({
     vuetify,

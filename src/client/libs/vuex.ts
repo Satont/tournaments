@@ -30,8 +30,16 @@ export default new Vuex.Store({
   },
   actions: {
     async loadTeams({ commit }) {
-      const { data: { teams } } = await axios.get('/api/teams')
+      const { data: { teams } } = await axios.get('/api/teams').catch(() => ({ data: { teams: [] } }))
       commit('set.teams', teams)
+    },
+    async loadRoles({ commit }) {
+      const { data } = await axios.get('/api/roles')
+      commit('set.roles', data)
+    },
+    async loadSettings({ commit }) {
+      const { data } = await axios.get('/api/settings')
+      commit('set.settings', data)
     },
   },
 })
