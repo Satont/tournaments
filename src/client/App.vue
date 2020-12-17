@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-app-bar app dense dark>
-    <v-tabs color="#fff" class="my-navbar" show-arrows="false" active-class="active-tab" v-if="$store.state.user.isAdmin">
+    <v-tabs color="#fff" class="my-navbar" active-class="active-tab" v-if="$store.state.user.isAdmin">
       <v-tab :to="{ name: 'Players' }">Игроки</v-tab>
       <v-tab :to="{ name: 'Teams' }">Команды</v-tab>
       <v-tab :to="{ name: 'Tournaments' }">Турниры</v-tab>

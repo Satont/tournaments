@@ -20,6 +20,7 @@ const bootstrap = async () => {
   ])
   store.commit('set.roles', roles.data)
 
+
   new Vue({
     vuetify,
     render: (h) => h(App),
