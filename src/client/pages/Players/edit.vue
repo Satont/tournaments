@@ -20,7 +20,7 @@
           <v-autocomplete
             ref="teamsSelector"
             v-model="form.teams"
-            :items="userTeams"
+            :items="teams"
             :loading="teamsLoading"
             chips
             small-chips
@@ -50,7 +50,8 @@ export default class extends Vue {
     roles: [],
     teams: [],
   }
-  userTeams = []
+  originalTeams = []
+  teams = []
   teamsLoading = false
   icons = {
     save: mdiContentSave,
@@ -63,7 +64,8 @@ export default class extends Vue {
     this.form.tag = data.discord.tag
     this.form.roles = data.discord.roles.map(role => role.id)
     this.form.teams = data.teams.map(t => t.id)
-    this.userTeams = data.teams.map(t => ({ text: t.name, value: t.id }))
+    this.originalTeams = data.teams.map(t => ({ text: t.name, value: t.id }))
+    this.teams = this.originalTeams
   }
 
   async save() {
@@ -78,9 +80,9 @@ export default class extends Vue {
       this.$store.commit('set.teams', data)
     }
 
-    this.userTeams = [
-      ...this.userTeams,
-      ...this.$store.state.teams.filter(team => this.userTeams.some(t => t.id !== team.id)).map(t => ({ text: t.name, value: t.id }))
+    this.teams = [
+      ...this.originalTeams,
+      ...this.$store.state.teams.map(t => ({ text: t.name, value: t.id }))
     ]
 
     this.teamsLoading = false
