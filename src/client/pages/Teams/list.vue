@@ -28,7 +28,7 @@
     </template>
 
     <template v-slot:[`item.tournaments`]="{ item }">
-      <v-sheet max-width="200">
+      <v-sheet max-width="350">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="tournament in item.tournaments.filter(t => t.isRunned)" :key="tournament.id">
             <v-btn
@@ -49,7 +49,7 @@
     </template>
 
      <template v-slot:[`item.players`]="{ item }">
-      <v-sheet max-width="200">
+      <v-sheet max-width="350">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="player in item.players" :key="player.id">
             <v-btn
