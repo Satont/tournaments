@@ -22,8 +22,8 @@ export class SettingsService {
 
     for (const role of roles.value || []) {
       if (!body.roles.find(r => r.id === role.id)) {
-        const discordRole = DiscordClient.guilds.cache.first().roles.cache.get(role.id)
-        discordRole.members.forEach(m => m.roles.remove(discordRole))
+        const discordRole = await DiscordClient.guilds.cache.first().roles.fetch(role.id)
+        discordRole.members.forEach(m => m.roles.remove(discordRole.id))
       }
     }
 
