@@ -35,4 +35,22 @@ export class TeamsService {
       total,
     }
   }
+
+  async team(id: string) {
+    const item = await this.repository.findOne(id, {
+      relations: ['players', 'captain', 'tournaments'],
+    })
+
+    return {
+      ...item,
+      players: await Promise.all(item.players.map(async (p) => ({
+        ...p,
+        discord: await this.authService.findUserFromDiscordId(p.userId),
+      }))),
+      captain: {
+        ...item.captain,
+        discord: await this.authService.findUserFromDiscordId(item.captain.userId),
+      },
+    }
+  }
 }

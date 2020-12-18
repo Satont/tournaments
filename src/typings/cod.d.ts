@@ -5,8 +5,6 @@ interface Config {
   debug?: number,
 }
 
-
-
 declare module 'call-of-duty-api' {
   class CallOfDuty {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
