@@ -1,24 +1,16 @@
-import { Controller, Get, Param, Render, UseGuards } from '@nestjs/common'
+import { Controller, Get, Param, UseGuards } from '@nestjs/common'
 import { AuthenticatedGuard } from '../auth/guards/authenticated.guard'
 import { GuildAdminGuard } from '../auth/guards/guildAdmin.guard'
 import { TournamentsService } from './tournaments.service'
 
-@Controller('tournaments')
+@Controller()
 export class TournamentsController {
   constructor(
     private readonly service: TournamentsService
   ) {}
 
-  @Get('new')
+  @Get('api/tournaments')
   @UseGuards(AuthenticatedGuard, GuildAdminGuard)
-  @Render('pages/tournaments/new.hbs')
-  newTournament() {
-    return {}
-  }
-
-  @Get()
-  @UseGuards(AuthenticatedGuard, GuildAdminGuard)
-  @Render('pages/tournaments/list.hbs')
   async many() {
     const list = await this.service.getTournaments()
 
@@ -27,9 +19,8 @@ export class TournamentsController {
     }
   }
 
-  @Get('/:id')
+  @Get('api/tournaments/:id')
   @UseGuards(AuthenticatedGuard, GuildAdminGuard)
-  @Render('pages/tournaments/details.hbs')
   one(@Param('id') id: string) {
     return this.service.getTournament(id)
   }

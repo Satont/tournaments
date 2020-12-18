@@ -9,7 +9,33 @@
         </v-col>
 
         <v-col md="4">
-          <v-autocomplete v-model="form.players" :items="originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))" chips small-chips label="СОСТАВ" multiple></v-autocomplete>
+          <v-autocomplete
+            v-model="form.players"
+            :items="originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))"
+            chips
+            small-chips
+            label="СОСТАВ"
+            multiple
+          />
+        </v-col>
+
+        <v-col md="4">
+          <v-autocomplete
+            v-model="form.tournaments"
+            :items="tournaments"
+            chips
+            small-chips
+            label="УЧАСТНИК ТУРНИРА"
+            multiple
+          />
+        </v-col>
+
+         <v-col md="4">
+          <v-autocomplete
+            v-model="form.captain"
+            :items="originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))"
+            label="КАПИТАН КОМАНДЫ"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -29,9 +55,12 @@ export default class extends Vue {
   form = {
     name: '',
     players: [],
+    tournaments: [],
+    captain: 0,
   }
   originalTeam = {
     players: [],
+    tournaments: [],
   }
 
   async mounted() {
@@ -39,11 +68,21 @@ export default class extends Vue {
 
     this.form.name = data.name
     this.form.players = data.players.map(p => ({ text: p.discord.tag, value: p.id }))
+    this.form.tournaments = data.tournaments.map(t => ({ text: t.name, value: t.id }))
+    this.form.captain = data.captain.id
+
     this.originalTeam = data
   }
 
   save() {
 
+  }
+
+  get tournaments() {
+    return [
+      ...this.originalTeam.tournaments.map(t => ({ text: t.name, value: t.id })),
+      ...this.$store.state.tournaments.list.map(t => ({ text: t.name, value: t.id }))
+    ]
   }
 }
 </script>

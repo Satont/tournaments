@@ -6,11 +6,17 @@ import { Tournament } from '../../entities/Tournament'
 export class TournamentsService {
   private readonly repository = getRepository(Tournament)
 
-  getTournaments() {
+  /* getTournaments() {
     return this.repository.createQueryBuilder('t')
       .loadRelationCountAndMap('t.teams', 't.teams')
       .loadRelationCountAndMap('t.players', 't.teams.players')
       .getMany()
+  } */
+
+  getTournaments() {
+    return this.repository.find({
+      relations: ['teams', 'teams.players', 'teams.captain'],
+    })
   }
 
   getTournament(id: string) {
@@ -18,7 +24,7 @@ export class TournamentsService {
       where: {
         id,
       },
-      relations: ['teams', 'teams.players'],
+      relations: ['teams', 'teams.players', 'teams.captain'],
     })
   }
 }

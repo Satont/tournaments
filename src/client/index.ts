@@ -18,6 +18,7 @@ const bootstrap = async () => {
   store.dispatch('loadTeams')
   store.dispatch('loadRoles')
   store.dispatch('loadSettings')
+  store.dispatch('loadTournaments')
 
   new Vue({
     vuetify,

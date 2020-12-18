@@ -12,6 +12,10 @@ export default new Vuex.Store({
       list: [],
       loaded: false,
     },
+    tournaments: {
+      list: [],
+      loaded: false,
+    },
   },
   mutations: {
     'set.user'(state, payLoad) {
@@ -27,6 +31,10 @@ export default new Vuex.Store({
       state.teams.loaded = true
       state.teams.list = payLoad
     },
+    'set.tournaments'(state, payLoad) {
+      state.tournaments.loaded = true
+      state.tournaments.list = payLoad
+    },
   },
   actions: {
     async loadTeams({ commit }) {
@@ -40,6 +48,10 @@ export default new Vuex.Store({
     async loadSettings({ commit }) {
       const { data } = await axios.get('/api/settings')
       commit('set.settings', data)
+    },
+    async loadTournaments({ commit }) {
+      const { data } = await axios.get('/api/tournaments')
+      commit('set.tournaments', data.list)
     },
   },
 })
