@@ -1,6 +1,9 @@
 <template>
-  <div>
-  <h2>Команда {{ form.name }}</h2> <v-btn @click="save">Save</v-btn>
+<div>
+  <div class="d-flex">
+    <h2 class="mr-auto">Команда {{ form.name }}</h2>
+    <v-btn @click="save" color="teal" class="ml-auto">Сохранить</v-btn>
+  </div>
   <v-form>
     <v-container>
       <v-row>

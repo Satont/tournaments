@@ -1,6 +1,9 @@
 <template>
 <div>
-  <h2>Игрок {{ form.tag }}</h2> <v-btn @click="save">Save</v-btn>
+  <div class="d-flex">
+    <h2 class="mr-auto">Игрок {{ form.tag }}</h2>
+    <v-btn @click="save" color="teal" class="ml-auto">Сохранить</v-btn>
+  </div>
   <v-form>
     <v-container>
       <v-row>
