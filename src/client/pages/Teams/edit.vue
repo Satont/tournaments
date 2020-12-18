@@ -79,6 +79,7 @@ export default class extends Vue {
 
   save() {
 
+    this.$store.dispatch('loadTeams')
   }
 
   get tournaments() {

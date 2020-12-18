@@ -67,6 +67,7 @@ export default class extends Vue {
 
   async save() {
     await axios.post('/api/settings', this.form)
+    this.$store.dispatch('loadSettings')
   }
 
   get rolesForSelection() {

@@ -74,6 +74,7 @@ export default class extends Vue {
 
   async save() {
     await axios.post(`/api/players/${this.$route.params.id}`, this.form)
+    this.$store.dispatch('loadTeams')
   }
 
   async loadTeams() {
