@@ -16,13 +16,13 @@ export class PlayersController {
     return this.service.getList(query)
   }
 
-  @Get('/:id')
+  @Get(':id')
   @UseGuards(AuthenticatedGuard, GuildAdminGuard)
   player(@Param('id') id: string) {
     return this.service.getOne(id)
   }
 
-  @Post('/:id')
+  @Post(':id')
   @UseGuards(AuthenticatedGuard, GuildAdminGuard)
   editPlayer(@Param('id') id: string, @Body() body: PlayerDto) {
     return this.service.edit(id, body)

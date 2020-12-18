@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { getRepository } from 'typeorm'
 import { Team } from '../../entities/Team'
 import { AuthService } from '../auth/discord-auth.service'
+import { TeamDto } from './team.dto'
 
 @Injectable()
 export class TeamsService {
@@ -51,6 +52,13 @@ export class TeamsService {
         ...item.captain,
         discord: await this.authService.findUserFromDiscordId(item.captain.userId),
       },
+    }
+  }
+
+  async edit(id: string, body: TeamDto) {
+    return {
+      id,
+      body,
     }
   }
 }
