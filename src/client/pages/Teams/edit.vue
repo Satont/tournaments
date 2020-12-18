@@ -71,7 +71,7 @@ export default class extends Vue {
 
     this.form.name = data.name
     this.form.players = data.players.map(p => ({ text: p.discord.tag, value: p.id }))
-    this.form.tournaments = data.tournaments.map(t => ({ text: t.name, value: t.id }))
+    this.form.tournaments = data.tournaments.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id }))
     this.form.captain = data.captain.id
 
     this.originalTeam = data
@@ -83,8 +83,8 @@ export default class extends Vue {
 
   get tournaments() {
     return [
-      ...this.originalTeam.tournaments.map(t => ({ text: t.name, value: t.id })),
-      ...this.$store.state.tournaments.list.map(t => ({ text: t.name, value: t.id }))
+      ...this.originalTeam.tournaments.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id })),
+      ...this.$store.state.tournaments.list.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id }))
     ]
   }
 }
