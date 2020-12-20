@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { getRepository } from 'typeorm'
+import { getRepository, In } from 'typeorm'
+import { Player } from '../../entities/Player'
 import { Team } from '../../entities/Team'
+import { Tournament } from '../../entities/Tournament'
 import { AuthService } from '../auth/discord-auth.service'
 import { TeamDto } from './team.dto'
 
 @Injectable()
 export class TeamsService {
   private readonly repository = getRepository(Team)
+  private readonly playersRepository = getRepository(Player)
 
   constructor(
     private readonly authService: AuthService
@@ -56,9 +59,14 @@ export class TeamsService {
   }
 
   async edit(id: string, body: TeamDto) {
-    return {
-      id,
-      body,
-    }
+    const team = await this.repository.findOne(id, { relations: ['captain', 'players'] })
+    team.captain.id = body.captain
+    team.players = await this.playersRepository.find({ id: In(body.players.map(p => p.value)) })
+    team.name = body.name
+    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
+
+    await team.save()
+    console.log({ body, team })
+    return team
   }
 }

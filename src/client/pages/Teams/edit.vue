@@ -14,7 +14,7 @@
         <v-col md="4">
           <v-autocomplete
             v-model="form.players"
-            :items="originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))"
+            :items="players"
             chips
             small-chips
             label="СОСТАВ"
@@ -35,7 +35,7 @@
 
          <v-col md="4">
           <v-autocomplete
-            v-model="form.captain"
+            v-model.number="form.captain"
             :items="originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))"
             label="КАПИТАН КОМАНДЫ"
           />
@@ -77,8 +77,8 @@ export default class extends Vue {
     this.originalTeam = data
   }
 
-  save() {
-
+  async save() {
+    await axios.post(`/api/teams/${this.$route.params.id}`, this.form)
     this.$store.dispatch('loadTeams')
   }
 
@@ -87,6 +87,10 @@ export default class extends Vue {
       ...this.originalTeam.tournaments.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id })),
       ...this.$store.state.tournaments.list.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id }))
     ]
+  }
+
+  get players() {
+    return this.originalTeam.players.map(p => ({ text: p.discord.tag, value: p.id }))
   }
 }
 </script>
