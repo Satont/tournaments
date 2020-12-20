@@ -11,5 +11,5 @@ export class TeamDto {
   players: { text: string, value: number }[]
 
   @IsArray()
-  tournaments: number[]
+  tournaments: { text: string, value: number }[]
 }

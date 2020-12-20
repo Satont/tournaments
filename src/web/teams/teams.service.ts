@@ -63,10 +63,9 @@ export class TeamsService {
     team.captain.id = body.captain
     team.players = await this.playersRepository.find({ id: In(body.players.map(p => p.value)) })
     team.name = body.name
-    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
+    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments.map(p => p.value)) })
 
     await team.save()
-    console.log({ body, team })
     return team
   }
 }
