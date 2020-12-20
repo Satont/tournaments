@@ -70,8 +70,8 @@ export default class extends Vue {
     const { data } = await axios.get(`/api/teams/${this.$route.params.id}`)
 
     this.form.name = data.name
-    this.form.players = data.players.map(p => ({ text: p.discord.tag, value: p.id }))
-    this.form.tournaments = data.tournaments.filter(t => t.isRunned).map(t => ({ text: t.name, value: t.id }))
+    this.form.players = data.players.map(p => p.id)
+    this.form.tournaments = data.tournaments.filter(t => t.isRunned).map(t => t.id)
     this.form.captain = data.captain.id
 
     this.originalTeam = data

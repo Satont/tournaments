@@ -61,9 +61,9 @@ export class TeamsService {
   async edit(id: string, body: TeamDto) {
     const team = await this.repository.findOne(id, { relations: ['captain', 'players'] })
     team.captain.id = body.captain
-    team.players = await this.playersRepository.find({ id: In(body.players.map(p => p.value)) })
+    team.players = await this.playersRepository.find({ id: In(body.players) })
     team.name = body.name
-    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments.map(p => p.value)) })
+    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
 
     await team.save()
     return team

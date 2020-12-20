@@ -8,8 +8,8 @@ export class TeamDto {
   captain: number
 
   @IsArray()
-  players: { text: string, value: number }[]
+  players: number[]
 
   @IsArray()
-  tournaments: { text: string, value: number }[]
+  tournaments: number[]
 }
