@@ -13,7 +13,9 @@
     "build:web": "webpack --config webpack.ts",
     "prebuild": "rimraf dist/**",
     "prestart": "npm run migration:up",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "eslint": "eslint --ext .ts src",
+    "eslint:fix": "npx eslint --ext .ts --fix src"
   },
   "author": "Satont <satontworldwide@gmail.com>",
   "license": "MIT",

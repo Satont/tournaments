@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 type Platform = 'battle' | 'steam' | 'psn' | 'xbl' | 'acti' | 'uno' | 'all'
 
 interface Config {
@@ -7,9 +9,6 @@ interface Config {
 
 declare module 'call-of-duty-api' {
   class CallOfDuty {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor(config = {} as Config) {}
 
     login(email: string, password: string): Promise<string>
