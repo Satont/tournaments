@@ -13,7 +13,7 @@
   >
 
     <template v-slot:[`item.roles`]="{ item }">
-      <v-sheet max-width="200">
+      <v-sheet max-width="200" class="slide-group">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="role in getUserDiscordRoles(item)" :key="role.id">
             <v-btn
@@ -31,7 +31,7 @@
 
 
     <template v-slot:[`item.teams`]="{ item }">
-      <v-sheet max-width="200">
+      <v-sheet max-width="200" class="slide-group">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="team in item.teams" :key="team.id">
             <v-btn
@@ -52,7 +52,7 @@
     </template>
 
     <template v-slot:[`item.teams.tournaments`]="{ item }">
-      <v-sheet max-width="200">
+      <v-sheet max-width="200" class="slide-group">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="tournament in getTournamentsFromItem(item)" :key="tournament.id">
             <v-btn
@@ -145,3 +145,9 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.slide-group {
+  background: none;
+}
+</style>

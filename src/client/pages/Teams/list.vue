@@ -26,7 +26,7 @@
     </template>
 
     <template v-slot:[`item.tournaments`]="{ item }">
-      <v-sheet max-width="350">
+      <v-sheet max-width="350" class="slide-group">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="tournament in item.tournaments.map(t => t.tournament).filter(t => t.isRunned)" :key="tournament.id">
             <v-btn
@@ -47,7 +47,7 @@
     </template>
 
      <template v-slot:[`item.players`]="{ item }">
-      <v-sheet max-width="350">
+      <v-sheet max-width="350" class="slide-group">
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="player in item.players" :key="player.id">
             <v-btn
@@ -82,6 +82,7 @@
   </v-data-table>
 </template>
 
+
 <script lang="ts">
 import axios from 'axios'
 import { mdiPencil } from '@mdi/js'
@@ -105,3 +106,9 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.slide-group {
+  background: none;
+}
+</style>
