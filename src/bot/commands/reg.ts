@@ -1,4 +1,4 @@
-import { MessageEmbed, Role } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { getRepository } from 'typeorm'
 import { Player } from '../../entities/Player'
