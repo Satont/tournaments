@@ -134,13 +134,14 @@ export default class extends Vue {
   getTournamentsFromItem(item) {
     const result = item.teams
       .flatMap(i => i.tournaments)
-      .filter(t => t.isRunned)
+      .filter(t => t.tournament.isRunned)
+      .map(t => t.tournament)
 
     return result
   }
 
   getUserDiscordRoles(user) {
-    return user.discord.roles.filter(discordRole => this.$store.state.settings.roles.some(role => role.id === discordRole.id))
+    return user.discord.roles.filter(discordRole => this.$store.state.settings.roles?.some(role => role.id === discordRole.id))
   }
 }
 </script>

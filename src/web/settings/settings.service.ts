@@ -9,7 +9,7 @@ export class SettingsService {
   private readonly repository = getRepository(Settings)
 
   async list() {
-    const roles = await (await this.repository.findOne({ space: 'general', name: 'roles' })).value
+    const roles = (await this.repository.findOne({ space: 'general', name: 'roles' }))?.value ?? []
 
     return {
       roles,

@@ -19,7 +19,7 @@ export class PlayersService {
 
   async getList(query: Record<string, string>) {
     const [list, total] = await this.repository.findAndCount({
-      relations: ['teams', 'teams.tournaments'],
+      relations: ['teams', 'teams.tournaments', 'teams.tournaments.tournament'],
       take: Number(query.itemsPerPage),
       skip: (Number(query.page) - 1) * Number(query.itemsPerPage),
     })

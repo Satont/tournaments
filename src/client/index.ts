@@ -15,10 +15,12 @@ const bootstrap = async () => {
     window.location.replace(`/auth/discord`)
   }
 
-  store.dispatch('loadTeams')
-  store.dispatch('loadRoles')
-  store.dispatch('loadSettings')
-  store.dispatch('loadTournaments')
+  await Promise.all([
+    store.dispatch('loadTeams'),
+    store.dispatch('loadRoles'),
+    store.dispatch('loadSettings'),
+    store.dispatch('loadTournaments'),
+  ])
 
   new Vue({
     vuetify,

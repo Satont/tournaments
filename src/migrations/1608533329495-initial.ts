@@ -1,9 +1,28 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initial1607776091327 implements MigrationInterface {
-    name = 'initial1607776091327'
+export class initial1608533329495 implements MigrationInterface {
+    name = 'initial1608533329495'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`
+            CREATE TABLE "tournaments" (
+                "id" SERIAL NOT NULL,
+                "name" character varying NOT NULL,
+                "isRunned" boolean NOT NULL,
+                "type" character varying NOT NULL,
+                "channel" character varying NOT NULL,
+                CONSTRAINT "PK_6d5d129da7a80cf99e8ad4833a9" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "team_to_tournament" (
+                "id" SERIAL NOT NULL,
+                "comment" character varying,
+                "teamId" integer,
+                "tournamentId" integer,
+                CONSTRAINT "PK_00cdda747f87c9c9e3b27c1fd1f" PRIMARY KEY ("id")
+            )
+        `);
         await queryRunner.query(`
             CREATE TABLE "teams" (
                 "id" SERIAL NOT NULL,
@@ -70,16 +89,6 @@ export class initial1607776091327 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "tournaments" (
-                "id" SERIAL NOT NULL,
-                "name" character varying NOT NULL,
-                "isRunned" boolean NOT NULL,
-                "type" character varying NOT NULL,
-                "channel" character varying NOT NULL,
-                CONSTRAINT "PK_6d5d129da7a80cf99e8ad4833a9" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
             CREATE TABLE "teams_players" (
                 "playersId" integer NOT NULL,
                 "teamsId" integer NOT NULL,
@@ -93,17 +102,12 @@ export class initial1607776091327 implements MigrationInterface {
             CREATE INDEX "IDX_321b4a69d558ffa2bda1621bc4" ON "teams_players" ("teamsId")
         `);
         await queryRunner.query(`
-            CREATE TABLE "tournaments_teams" (
-                "tournamentsId" integer NOT NULL,
-                "teamsId" integer NOT NULL,
-                CONSTRAINT "PK_060ed90e776ac44f820b0c7c475" PRIMARY KEY ("tournamentsId", "teamsId")
-            )
+            ALTER TABLE "team_to_tournament"
+            ADD CONSTRAINT "FK_a228e41972fa68282451b7e630f" FOREIGN KEY ("teamId") REFERENCES "teams"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
-            CREATE INDEX "IDX_c4c5b7ef37e29ecd809200556e" ON "tournaments_teams" ("tournamentsId")
-        `);
-        await queryRunner.query(`
-            CREATE INDEX "IDX_0ea369da0797cdfe98a0da3873" ON "tournaments_teams" ("teamsId")
+            ALTER TABLE "team_to_tournament"
+            ADD CONSTRAINT "FK_32d68da9a169f52f8bdf2c98269" FOREIGN KEY ("tournamentId") REFERENCES "tournaments"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "teams"
@@ -125,23 +129,9 @@ export class initial1607776091327 implements MigrationInterface {
             ALTER TABLE "teams_players"
             ADD CONSTRAINT "FK_321b4a69d558ffa2bda1621bc46" FOREIGN KEY ("teamsId") REFERENCES "teams"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
-        await queryRunner.query(`
-            ALTER TABLE "tournaments_teams"
-            ADD CONSTRAINT "FK_c4c5b7ef37e29ecd809200556e2" FOREIGN KEY ("tournamentsId") REFERENCES "tournaments"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "tournaments_teams"
-            ADD CONSTRAINT "FK_0ea369da0797cdfe98a0da38738" FOREIGN KEY ("teamsId") REFERENCES "teams"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
-            ALTER TABLE "tournaments_teams" DROP CONSTRAINT "FK_0ea369da0797cdfe98a0da38738"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "tournaments_teams" DROP CONSTRAINT "FK_c4c5b7ef37e29ecd809200556e2"
-        `);
         await queryRunner.query(`
             ALTER TABLE "teams_players" DROP CONSTRAINT "FK_321b4a69d558ffa2bda1621bc46"
         `);
@@ -158,13 +148,10 @@ export class initial1607776091327 implements MigrationInterface {
             ALTER TABLE "teams" DROP CONSTRAINT "FK_c865ec19ec98fc763b1b709eaf2"
         `);
         await queryRunner.query(`
-            DROP INDEX "IDX_0ea369da0797cdfe98a0da3873"
+            ALTER TABLE "team_to_tournament" DROP CONSTRAINT "FK_32d68da9a169f52f8bdf2c98269"
         `);
         await queryRunner.query(`
-            DROP INDEX "IDX_c4c5b7ef37e29ecd809200556e"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "tournaments_teams"
+            ALTER TABLE "team_to_tournament" DROP CONSTRAINT "FK_a228e41972fa68282451b7e630f"
         `);
         await queryRunner.query(`
             DROP INDEX "IDX_321b4a69d558ffa2bda1621bc4"
@@ -174,9 +161,6 @@ export class initial1607776091327 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "teams_players"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "tournaments"
         `);
         await queryRunner.query(`
             DROP TABLE "settings"
@@ -201,6 +185,12 @@ export class initial1607776091327 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "teams"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "team_to_tournament"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "tournaments"
         `);
     }
 

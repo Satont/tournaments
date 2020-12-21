@@ -7,6 +7,12 @@ import { DiscordClient } from './bot'
 import { bootstrap as bootstrapWeb } from './web'
 import { bootstrap as CODBootstrap } from './libs/cod'
 import { createConnection, getConnection } from 'typeorm'
+import { Team } from './entities/Team'
+import { Player } from './entities/Player'
+import { Tournament } from './entities/Tournament'
+import { TeamToTournament } from './entities/TeamToTournament'
+import { connect } from 'http2'
+
 
 async function bootstrap() {
   await createConnection()

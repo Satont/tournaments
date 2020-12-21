@@ -1,6 +1,6 @@
-import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm'
+import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, ManyToOne, ManyToMany, OneToMany } from 'typeorm'
 import { Player } from './Player'
-import { Tournament } from './Tournament'
+import { TeamToTournament } from './TeamToTournament'
 
 @Entity('teams')
 export class Team extends BaseEntity {
@@ -16,7 +16,6 @@ export class Team extends BaseEntity {
   @ManyToMany(() => Player, player => player.teams)
   players: Player[]
 
-  @ManyToMany(() => Tournament)
-  @JoinTable({ name: 'tournaments_teams' })
-  tournaments: Tournament[]
+  @OneToMany(() => TeamToTournament, team => team.team)
+  tournaments!: TeamToTournament[]
 }

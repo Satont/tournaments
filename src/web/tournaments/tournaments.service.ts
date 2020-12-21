@@ -15,7 +15,7 @@ export class TournamentsService {
 
   getTournaments() {
     return this.repository.find({
-      relations: ['teams', 'teams.players', 'teams.captain'],
+      relations: ['teams', 'teams.team', 'teams.team.players'],
     })
   }
 
@@ -24,7 +24,7 @@ export class TournamentsService {
       where: {
         id,
       },
-      relations: ['teams', 'teams.players', 'teams.captain'],
+      relations: ['teams', 'teams.team', 'teams.team.players'],
     })
   }
 }

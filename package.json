@@ -11,7 +11,7 @@
     "dev:web": "webpack --config webpack.ts --watch --progress",
     "build": "tsc",
     "build:web": "webpack --config webpack.ts",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist/**",
     "prestart": "npm run migration:up",
     "start": "node dist/index.js"
   },

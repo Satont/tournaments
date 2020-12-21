@@ -28,7 +28,7 @@
     <template v-slot:[`item.tournaments`]="{ item }">
       <v-sheet max-width="350">
         <v-slide-group multiple show-arrows>
-          <v-slide-item v-for="tournament in item.tournaments.filter(t => t.isRunned)" :key="tournament.id">
+          <v-slide-item v-for="tournament in item.tournaments.map(t => t.tournament).filter(t => t.isRunned)" :key="tournament.id">
             <v-btn
               class="mx-2"
               small

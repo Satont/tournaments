@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { getRepository, In } from 'typeorm'
 import { Player } from '../../entities/Player'
 import { Team } from '../../entities/Team'
-import { Tournament } from '../../entities/Tournament'
 import { AuthService } from '../auth/discord-auth.service'
 import { TeamDto } from './team.dto'
 
@@ -17,7 +16,7 @@ export class TeamsService {
 
   async list(query: Record<string, string>) {
     const [list, total] = await this.repository.findAndCount({
-      relations: ['players', 'captain', 'tournaments'],
+      relations: ['players', 'captain', 'tournaments', 'tournaments.tournament'],
       take: Number(query.itemsPerPage) || undefined,
       skip: (Number(query.page) - 1) * Number(query.itemsPerPage) || undefined,
     })
@@ -42,7 +41,7 @@ export class TeamsService {
 
   async team(id: string) {
     const item = await this.repository.findOne(id, {
-      relations: ['players', 'captain', 'tournaments'],
+      relations: ['players', 'captain', 'tournaments', 'tournaments.tournament'],
     })
 
     return {
@@ -63,7 +62,7 @@ export class TeamsService {
     team.captain.id = body.captain
     team.players = await this.playersRepository.find({ id: In(body.players) })
     team.name = body.name
-    team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
+    //team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
 
     await team.save()
     return team

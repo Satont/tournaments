@@ -1,5 +1,5 @@
-import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, ManyToMany, JoinTable } from 'typeorm'
-import { Team } from './Team'
+import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, OneToMany } from 'typeorm'
+import { TeamToTournament } from './TeamToTournament'
 
 @Entity('tournaments')
 export class Tournament extends BaseEntity {
@@ -18,7 +18,6 @@ export class Tournament extends BaseEntity {
   @Column()
   channel!: string
 
-  @ManyToMany(() => Team)
-  @JoinTable({ name: 'tournaments_teams' })
-  teams: Team[]
+  @OneToMany(() => TeamToTournament, team => team.tournament)
+  teams!: TeamToTournament[]
 }
