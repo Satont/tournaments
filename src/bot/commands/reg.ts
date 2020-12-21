@@ -2,6 +2,7 @@ import { MessageEmbed, Role } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { getRepository } from 'typeorm'
 import { Player } from '../../entities/Player'
+import { Settings } from '../../entities/Settings'
 import CallOfDuty from '../../libs/cod'
 
 export default class extends Command {
@@ -32,24 +33,18 @@ export default class extends Command {
 
       const user = await this.playerRepository.findOne({ userId: msg.author.id }) || await (this.playerRepository.create({ userId: msg.author.id, activision: tag })).save()
 
-      const [tier1, tier2, tier3] = [
-        msg.guild.roles.cache.find(r => r.name === 'Tier 1'),
-        msg.guild.roles.cache.find(r => r.name === 'Tier 2'),
-        msg.guild.roles.cache.find(r => r.name === 'Tier 3'),
-      ]
-
       const kd = Number(warZoneProfile.br_all.kdRatio.toFixed(2))
-      let roleForAdd: Role
 
-      if (kd >= 5) {
-        roleForAdd = tier1
-      } else if (kd >= 3 && kd <= 4.9) {
-        roleForAdd = tier2
-      } else {
-        roleForAdd = tier3
+      const avaliableTiers = (await getRepository(Settings)
+        .find({ space: 'general', name: 'roles' }))
+        .map(s => s.value as { id: string, kda: number })
+        .sort((a, b) => b.kda - a.kda)
+
+      const roleForAdd = avaliableTiers.find(tier => tier.kda >= kd)?.id
+      if (roleForAdd && !msg.member.roles.cache.has(roleForAdd)) {
+        msg.member.roles.add(roleForAdd)
       }
 
-      msg.member.roles.add(roleForAdd).catch(() => null)
       const embed = new MessageEmbed({
         thumbnail: {
           url: msg.member.user.avatarURL(),
