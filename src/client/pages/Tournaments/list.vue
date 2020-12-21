@@ -29,9 +29,7 @@
     </template>
 
     <template v-slot:[`item.actions`]="{ item }">
-      <v-btn icon @click="$router.push({ name: 'TournamentsEdit', params: { id: item.id } })">
-        <v-icon>{{ icons.info }}</v-icon>
-      </v-btn>
+      <v-icon @click="$router.push({ name: 'TournamentsEdit', params: { id: item.id } })">{{ icons.info }}</v-icon>
     </template>
   </v-data-table>
 </template>
