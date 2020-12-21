@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { getConnection, getRepository, In, Not } from 'typeorm'
+import { getRepository, In, Not } from 'typeorm'
 import { Player } from '../../entities/Player'
 import { Team } from '../../entities/Team'
 import { TeamToTournament } from '../../entities/TeamToTournament'
