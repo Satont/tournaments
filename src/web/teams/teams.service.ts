@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { getRepository, In } from 'typeorm'
+import { getConnection, getRepository, In, Not } from 'typeorm'
 import { Player } from '../../entities/Player'
 import { Team } from '../../entities/Team'
+import { TeamToTournament } from '../../entities/TeamToTournament'
 import { AuthService } from '../auth/discord-auth.service'
 import { TeamDto } from './team.dto'
 
@@ -9,6 +10,7 @@ import { TeamDto } from './team.dto'
 export class TeamsService {
   private readonly repository = getRepository(Team)
   private readonly playersRepository = getRepository(Player)
+  private readonly teamToTournamentRepository = getRepository(TeamToTournament)
 
   constructor(
     private readonly authService: AuthService
@@ -62,9 +64,23 @@ export class TeamsService {
     team.captain.id = body.captain
     team.players = await this.playersRepository.find({ id: In(body.players) })
     team.name = body.name
-    //team.tournaments = await getRepository(Tournament).find({ id: In(body.tournaments) })
 
-    await team.save()
+    // delete teamToTournament instance if it's not comes from body
+    for (const tournament of await this.teamToTournamentRepository.find({ team, tournamentId: Not(In(body.tournaments)) })) {
+      await this.teamToTournamentRepository.remove(tournament)
+    }
+
+    const tournaments = body.tournaments.map(tournamentId => this.teamToTournamentRepository.create({
+      teamId: team.id,
+      tournamentId,
+      comment: '',
+    }))
+
+    await Promise.all([
+      team.save(),
+      this.teamToTournamentRepository.save(tournaments),
+    ])
+
     return team
   }
 }

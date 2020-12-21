@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from 'typeorm'
 import { Team } from './Team'
 import { Tournament } from './Tournament'
 
@@ -10,9 +10,17 @@ export class TeamToTournament {
   @Column({ nullable: true })
   comment?: string
 
+  @Column()
+  teamId!: number
+
   @ManyToOne(() => Team, team => team.tournaments, { cascade: true })
+  @JoinColumn({ name: 'teamId' })
   team!: Team
 
+  @Column()
+  tournamentId!: number
+
   @ManyToOne(() => Tournament, tournament => tournament.teams, { cascade: true })
+  @JoinColumn({ name: 'tournamentId' })
   tournament!: Tournament
 }
