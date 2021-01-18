@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from 'typeorm'
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 import { Team } from './Team'
 import { Tournament } from './Tournament'
 
@@ -23,4 +23,10 @@ export class TeamToTournament {
   @ManyToOne(() => Tournament, tournament => tournament.teams, { cascade: true })
   @JoinColumn({ name: 'tournamentId' })
   tournament!: Tournament
+
+  @CreateDateColumn()
+  createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
 }

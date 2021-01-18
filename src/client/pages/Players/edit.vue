@@ -62,7 +62,6 @@ export default class extends Vue {
   }
 
   async mounted() {
-    console.log(this.$store.state)
     const { data } = await axios.get(`/api/players/${this.$route.params.id}`)
 
     this.form.activision = data.activision
