@@ -3,6 +3,7 @@ import { Request } from 'express'
 import { AuthenticatedGuard } from '../auth/guards/authenticated.guard'
 import { GuildAdminGuard } from '../auth/guards/guildAdmin.guard'
 import { CommentDto } from './comment.dto'
+import { TournamentCreateDto } from './tournament.create.dto'
 import { TournamentsService } from './tournaments.service'
 
 @Controller()
@@ -25,6 +26,12 @@ export class TournamentsController {
   @UseGuards(AuthenticatedGuard, GuildAdminGuard)
   one(@Param('id') id: string) {
     return this.service.getTournament(id)
+  }
+
+  @Post('api/tournaments')
+  @UseGuards(AuthenticatedGuard, GuildAdminGuard)
+  createTournament(@Body() body: TournamentCreateDto) {
+    return this.service.createTournament(body)
   }
 
   @Get('api/tournaments/:id/comments')

@@ -16,6 +16,10 @@ export default new Vuex.Store({
       list: [],
       loaded: false,
     },
+    channels: {
+      list: [],
+      loaded: false,
+    },
   },
   mutations: {
     'set.user'(state, payLoad) {
@@ -35,6 +39,10 @@ export default new Vuex.Store({
       state.tournaments.loaded = true
       state.tournaments.list = payLoad
     },
+    'set.channels'(state, payLoad) {
+      state.channels.loaded = true
+      state.channels.list = payLoad
+    },
   },
   actions: {
     async loadTeams({ commit }) {
@@ -52,6 +60,10 @@ export default new Vuex.Store({
     async loadTournaments({ commit }) {
       const { data } = await axios.get('/api/tournaments')
       commit('set.tournaments', data.list)
+    },
+    async loadChannels({ commit }) {
+      const { data } = await axios.get('/api/channels')
+      commit('set.channels', data)
     },
   },
 })

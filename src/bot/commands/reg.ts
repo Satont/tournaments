@@ -29,7 +29,17 @@ export default class extends Command {
       const [warZoneProfile, mpProfile] = await Promise.all([
         CallOfDuty.MWBattleData(tag),
         CallOfDuty.MWmp(tag),
-      ])
+      ]).catch((e) => {
+        if (e.includes('not allowed')) {
+          msg.reply('не удалось получить вашу статистику. Пожалуйста, убедитесь, что ваш профиль открыт https://profile.callofduty.com/cod/profile.')
+        }
+
+        return [null, null]
+      })
+
+      if (!warZoneProfile || !mpProfile) {
+        return msg.reply('не удалось получить вашу статистику.')
+      }
 
       const user = await this.playerRepository.findOne({ userId: msg.author.id }) || await (this.playerRepository.create({ userId: msg.author.id, activision: tag })).save()
 

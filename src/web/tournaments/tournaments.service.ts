@@ -6,6 +6,7 @@ import { Tournament } from '../../entities/Tournament'
 import { TournamentComment } from '../../entities/TournamentComment'
 import { AuthService } from '../auth/discord-auth.service'
 import { CommentDto } from './comment.dto'
+import { TournamentCreateDto } from './tournament.create.dto'
 
 @Injectable()
 export class TournamentsService {
@@ -50,6 +51,10 @@ export class TournamentsService {
       ...comment,
       author: await this.authService.findUserFromDiscordId(comment.author.userId),
     })))
+  }
+
+  createTournament(opts: TournamentCreateDto) {
+    return this.repository.create({ type: opts.type, name: opts.name, isRunned: true, channel: opts.channel }).save()
   }
 
   async createComment(body: CommentDto, user: Request['user']) {

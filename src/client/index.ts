@@ -20,14 +20,17 @@ const bootstrap = async () => {
     store.dispatch('loadRoles'),
     store.dispatch('loadSettings'),
     store.dispatch('loadTournaments'),
+    store.dispatch('loadChannels'),
   ])
 
-  new Vue({
+  const app = new Vue({
     vuetify,
     render: (h) => h(App),
     store,
     router,
-  }).$mount('#app')
+  }).$mount('#app');
+
+  (window as any).Vue = app
 }
 
 bootstrap()

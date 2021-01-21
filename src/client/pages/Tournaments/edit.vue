@@ -15,11 +15,21 @@
           <v-text-field v-model="form.type" label="Тип турнира" required />
         </v-col>
 
-        <v-col md="2">
+        <v-col md="2" v-if="form.id">
           <v-autocomplete v-model="form.teams" :items="teams" :menu-props="{ maxHeight: '400' }" label="Команды" multiple persistent-hint />
         </v-col>
 
         <v-col md="2">
+          <v-autocomplete 
+            v-model="form.channel" 
+            :items="$store.state.channels.list.map(c => ({ text: c.name, value: c.id }))" 
+            :menu-props="{ maxHeight: '400' }" 
+            label="Канал" 
+            persistent-hint 
+          />
+        </v-col>
+
+        <v-col md="2" v-if="form.id">
           <v-checkbox v-model="form.isRunned" label="Статус" :color="form.isRunned ? 'teal' : 'danger'">
             <template v-slot:label>
               <div :class="form.isRunned ? 'teal--text' : 'red--text text--lighten-2'">
@@ -30,9 +40,9 @@
         </v-col>
 
       </v-row>
-      <v-row>
+      <v-row v-if="this.$route.params.id !== 'new'">
         <v-col>
-          <Comments :tournamentId="form.id" />
+          <Comments :tournamentId="this.$route.params.id" />
         </v-col>
       </v-row>
     </v-container>
@@ -61,6 +71,7 @@ export default class extends Vue {
   teams = []
 
   async mounted() {
+    if (this.$route.params.id === 'new') return
     const { data } = await axios.get(`/api/tournaments/${this.$route.params.id}`)
 
     this.form = data
@@ -69,7 +80,12 @@ export default class extends Vue {
   }
 
   async save() {
-    return true
+    const [method, url] = this.$route.params.id !== 'new' 
+      ? ['patch', `/api/tournaments/${this.$route.params.id}`]
+      : ['post', `/api/tournaments`]
+  
+    await axios[method](url, this.form)
+    this.$store.dispatch('loadTournaments')
   }
 }
 </script>

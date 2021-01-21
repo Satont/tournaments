@@ -16,7 +16,7 @@
         <v-toolbar-title>Турниры</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark class="mb-2" small>Создать</v-btn>
+        <v-btn color="primary" dark class="mb-2" small @click="$router.push({ name: 'TournamentsEdit', params: { id: 'new' } })">Создать</v-btn>
       </v-toolbar>
     </template>
     <template v-slot:[`item.teams`]="{ item }">

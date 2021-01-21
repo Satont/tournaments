@@ -33,10 +33,6 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 @Component
 export default class extends Vue {
   @Prop() readonly tournamentId: number
-  @Watch('tournamentId')
-  onTournamentChange() {
-    this.init()
-  }
 
   icons = {
     mdiSend,
@@ -44,7 +40,7 @@ export default class extends Vue {
   newComment = ''
   comments = []
 
-  async init() {
+  async created() {
     const { data } = await axios.get(`api/tournaments/${this.tournamentId}/comments`)
 
     this.comments = data
