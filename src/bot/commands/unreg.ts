@@ -12,7 +12,7 @@ export default class extends Command {
       name: 'unreg',
       group: 'team',
       memberName: 'unreg',
-      description: 'Test command',
+      description: 'Роспуск/выход из команды.',
       args: [
         {
           key: 'teamName',

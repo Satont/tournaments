@@ -13,7 +13,7 @@ export default class extends Command {
       name: 'add',
       group: 'general',
       memberName: 'add',
-      description: 'Добавить пользователя в команду',
+      description: 'Добавить пользователя в команду.',
       args: [
         {
           key: 'targetMember',
