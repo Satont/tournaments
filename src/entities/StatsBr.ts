@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('users_stats_br')
 export class StatsBr extends BaseEntity {
@@ -13,4 +13,10 @@ export class StatsBr extends BaseEntity {
 
   @Column({ default: 0 })
   wins: number
+
+  @CreateDateColumn()
+  createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
 }

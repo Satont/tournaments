@@ -18,7 +18,7 @@ export default class extends Command {
       name: 'regt',
       group: 'team',
       memberName: 'regt',
-      description: 'Регистрация команды',
+      description: 'Регистрация команды.',
       args: [
         {
           key: 'teamName',

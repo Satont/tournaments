@@ -3,9 +3,13 @@ import { AuthModule } from './auth/auth.module'
 import { IndexController } from './index/index.controller'
 import { TournamentsModule } from './tournaments/tournaments.module'
 import { PlayersModule } from './players/players.module'
+import { RolesModule } from './roles/roles.module'
+import { SettingsModule } from './settings/settings.module'
+import { TeamsModule } from './teams/teams.module'
+import { ChannelsModule } from './channels/channels.module'
 
 @Module({
-  imports: [AuthModule, TournamentsModule, PlayersModule],
+  imports: [AuthModule, TournamentsModule, PlayersModule, RolesModule, SettingsModule, TeamsModule, ChannelsModule],
   controllers: [IndexController],
   providers: [],
 })

@@ -1,13 +1,9 @@
-import { Controller, Get, Render } from '@nestjs/common'
-import { DiscordClient } from '../../bot'
+import { Controller, Get } from '@nestjs/common'
 
 @Controller()
 export class IndexController {
   @Get()
-  @Render('pages/index.hbs')
   root() {
-    return {
-      desciption: DiscordClient.user.tag,
-    }
+    return {}
   }
 }

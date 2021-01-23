@@ -13,7 +13,7 @@ export default class extends Command {
       name: 'remove',
       group: 'general',
       memberName: 'remove',
-      description: 'Удалить пользователя из команды',
+      description: 'Удалить пользователя из команды.',
       args: [
         {
           key: 'targetMember',

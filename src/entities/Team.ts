@@ -1,5 +1,6 @@
-import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, ManyToOne, ManyToMany } from 'typeorm'
+import { PrimaryGeneratedColumn, BaseEntity, Entity, Column, ManyToOne, ManyToMany, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 import { Player } from './Player'
+import { TeamToTournament } from './TeamToTournament'
 
 @Entity('teams')
 export class Team extends BaseEntity {
@@ -14,4 +15,13 @@ export class Team extends BaseEntity {
 
   @ManyToMany(() => Player, player => player.teams)
   players: Player[]
+
+  @OneToMany(() => TeamToTournament, team => team.team)
+  tournaments!: TeamToTournament[]
+
+  @CreateDateColumn()
+  createdAt!: Date
+
+  @UpdateDateColumn()
+  updatedAt!: Date
 }

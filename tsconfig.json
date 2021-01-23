@@ -16,6 +16,10 @@
       "src/typings"
     ]
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
   "exclude": ["node_modules"]
 }
