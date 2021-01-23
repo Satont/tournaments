@@ -35,9 +35,8 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
 import { mdiInformation  } from '@mdi/js'
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {

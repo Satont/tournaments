@@ -42,7 +42,7 @@
       </v-row>
       <v-row v-if="this.$route.params.id !== 'new'">
         <v-col>
-          <Comments :tournamentId="this.$route.params.id" />
+          <Comments :tournamentId="Number(this.$route.params.id)" />
         </v-col>
       </v-row>
     </v-container>
@@ -54,12 +54,10 @@
 import axios from 'axios'
 import { mdiContentSave } from '@mdi/js'
 import { Vue, Component } from 'vue-property-decorator'
-import CommandsDialog from './commands.vue'
 import Comments from './comments.vue'
 
 @Component({
   components: {
-    CommandsDialog,
     Comments,
   }
 })
